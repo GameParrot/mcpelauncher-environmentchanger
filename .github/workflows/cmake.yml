@@ -1,0 +1,45 @@
+name: CMake
+
+on:
+  workflow_dispatch:
+  push:
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        abi: ["x86_64", "arm64-v8a" ]
+        include:
+        - abi: x86_64
+          ndktarget: x86_64-linux-android-
+        - abi: arm64-v8a
+          openssltarget: android-arm64
+          ndktarget: aarch64-linux-android-
+    steps:
+    - run: sudo apt update && sudo apt install llvm gcc ninja-build
+    - uses: actions/checkout@v3
+      with:
+        submodules: 'true'
+    - uses: nttld/setup-ndk@v1
+      id: setup-ndk
+      with:
+        ndk-version: r27c
+        add-to-path: true
+    - uses: actions/checkout@v2
+     
+ 
+    - name: Configure
+      run: cmake -B ${{github.workspace}}/build -G Ninja -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DCMAKE_TOOLCHAIN_FILE=${{ steps.setup-ndk.outputs.ndk-path }}/build/cmake/android.toolchain.cmake -DANDROID_ABI=${{ matrix.abi }} "-DCMAKE_C_FLAGS=-Wl,--strip-all"
+    - name: Build
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --target mcpelauncherenvironmentchanger
+    
+    - uses: actions/upload-artifact@v4
+      with:
+        name: environment-changer-${{format('android-{0}', matrix.abi)}}
+        path: |
+          build/libmcpelauncherenvironmentchanger.so
