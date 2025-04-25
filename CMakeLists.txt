@@ -14,6 +14,19 @@ include(cmake/CPM.cmake)
 add_library(mcpelauncherenvironmentchanger SHARED
         src/main.cpp
         src/menu.hpp
+        src/environment.cpp
+        src/environment.h
+        src/imgui_config.cpp
+        src/imgui_config.h
+        src/color_conversion.cpp
+        src/color_conversion.h
+        src/color.h
+        src/config.h
+        src/dimension.h
+        src/util.cpp
+        src/util.h
+        src/moon_phase.cpp
+        src/moon_phase.h
         )
 
 target_compile_options(mcpelauncherenvironmentchanger PRIVATE -Wall -Wextra -Wconversion -Wpedantic -fdeclspec)
