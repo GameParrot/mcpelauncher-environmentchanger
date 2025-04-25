@@ -11,7 +11,7 @@ Download the mod from [releases](https://github.com/GameParrot/mcpelauncher-envi
 
 ## Usage
 
-- Change the environment via the menu bar. You can change time of day, fog color, and cloud height.
+- Change the environment via the menu bar. You can change time of day, fog color, cloud height, weather, and moon phase.
 
 
 ## Building
