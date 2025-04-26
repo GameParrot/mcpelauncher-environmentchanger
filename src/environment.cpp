@@ -29,10 +29,10 @@ void Environment::saveConfig() {
         std::println(stderr, "Failed to save environment config: {}", glz::format_error(ec, buffer));
 }
 
-int Environment::getTime(int orig) {
-    int       baseWorldTime = orig / (24000 * (int)MoonPhase::Count);
-    int       timeOfDay     = orig % 24000;
-    MoonPhase moonPhase     = (MoonPhase)((orig / 24000) % (int)MoonPhase::Count);
+int Environment::getTime() {
+    int       baseWorldTime = realTime / (24000 * (int)MoonPhase::Count);
+    int       timeOfDay     = realTime % 24000;
+    MoonPhase moonPhase     = (MoonPhase)((realTime / 24000) % (int)MoonPhase::Count);
     switch (config.moonOptions.moonMode) {
     case MoonMode::Default:
         break;

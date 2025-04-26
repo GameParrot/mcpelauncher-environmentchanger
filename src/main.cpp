@@ -56,11 +56,15 @@ extern "C" [[gnu::visibility("default")]] void mod_init() {
     static auto Level_setTime_orig = *Level_setTime;
 
     *Level_getTime = [](void* self) -> int {
-        return env->getTime(Level_getTime_orig(self));
+        if (!env->changingTime()) {
+            return Level_getTime_orig(self);
+        }
+        return env->getTime();
     };
 
     *Level_setTime = [](void* self, int time) {
-        Level_setTime_orig(self, env->getTime(time));
+        env->updateRealTime(time);
+        Level_setTime_orig(self, time);
     };
 
     auto OverworldDimension_typeinfo_name                  = hat::find_pattern(range1, hat::object_to_signature("18OverworldDimension")).get();
