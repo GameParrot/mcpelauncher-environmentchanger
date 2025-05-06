@@ -49,8 +49,8 @@ extern "C" [[gnu::visibility("default")]] void mod_init() {
     auto Level_typeinfo_name = hat::find_pattern(range1, hat::object_to_signature("16MultiPlayerLevel")).get();
     auto Level_typeinfo      = hat::find_pattern(range2, hat::object_to_signature(Level_typeinfo_name)).get() - sizeof(void*);
     auto Level_vtable        = hat::find_pattern(range2, hat::object_to_signature(Level_typeinfo)).get() + sizeof(void*);
-    auto Level_getTime       = reinterpret_cast<int (**)(void*)>(Level_vtable) + 122;       // 1.21.80 - 123
-    auto Level_setTime       = reinterpret_cast<void (**)(void*, int)>(Level_vtable) + 123; // 1.21.80 - 124
+    auto Level_getTime       = reinterpret_cast<int (**)(void*)>(Level_vtable) + 123;
+    auto Level_setTime       = reinterpret_cast<void (**)(void*, int)>(Level_vtable) + 124;
 
     static auto Level_getTime_orig = *Level_getTime;
     static auto Level_setTime_orig = *Level_setTime;
